@@ -18,7 +18,7 @@ setwd("C:/Users/DackZ/Documents/R/Yukon_Birds/0_Data")
 WF_ARU_PC <- read.csv("WF_ARU_PC.csv")
 
 
-WF_All_Zones <- WF_ARU_PC %>%
+WF_All_Zones_ARU <- WF_ARU_PC %>%
   group_by(WF_ARU_PC$zone) %>%
   summarise_at(c(2:57), sum, na.rm = FALSE)
 
@@ -28,28 +28,28 @@ WF_All_Zones <- WF_ARU_PC %>%
 #Correct for species scientific names... 
 #replace Alpha codes with Hackett Sci names
 
-Taxa <- read.csv("Species_Taxonomy_Reference.csv")
+Taxa <- read.csv("ARU_Species_Taxonomy_Reference.csv")
 
-WF_All_Zones <- column_to_rownames(WF_All_Zones, "WF_ARU_PC$zone")
+WF_All_Zones_ARU_ARU <- column_to_rownames(WF_All_Zones_ARU, "WF_ARU_PC$zone")
 
-WF_All_Zones <- t(WF_All_Zones)
-WF_All_Zones <- as.data.frame(WF_All_Zones)
-WF_All_Zones <- rownames_to_column(WF_All_Zones,"alpha_codes")
+WF_All_Zones_ARU <- t(WF_All_Zones_ARU)
+WF_All_Zones_ARU <- as.data.frame(WF_All_Zones_ARU)
+WF_All_Zones_ARU <- rownames_to_column(WF_All_Zones_ARU,"alpha_codes")
 
-WF_All_Zones <- left_join(WF_All_Zones, Taxa, "alpha_codes")
+WF_All_Zones_ARU <- left_join(WF_All_Zones_ARU, Taxa, "alpha_codes")
 
-WF_All_Zones <- column_to_rownames(WF_All_Zones, var = "Hackett_Taxa")
+WF_All_Zones_ARU <- column_to_rownames(WF_All_Zones_ARU, var = "Hackett_Taxa")
 
-WF_All_Zones$alpha_codes <- NULL
-WF_All_Zones$species_AOU_name <- NULL
+WF_All_Zones_ARU$alpha_codes <- NULL
+WF_All_Zones_ARU$species_AOU_name <- NULL
 
-WF_All_Zones <- t(WF_All_Zones)
-WF_All_Zones <- as.data.frame(WF_All_Zones)
+WF_All_Zones_ARU <- t(WF_All_Zones_ARU)
+WF_All_Zones_ARU <- as.data.frame(WF_All_Zones_ARU)
 
 #read in your tree 
 
 
-treefile <- read.nexus("Phylo_tree/output.nex")
+treefile <- read.nexus("ARU_Phylo_Tree/output.nex")
 
 
 #Create a consensus tree. 
@@ -58,6 +58,7 @@ treefile <- read.nexus("Phylo_tree/output.nex")
 
 consensus <- consensus.edges(treefile, consensus.tree=consensus(treefile,p=0.5))
 
+ARU_Phylo_Consensus <- list.save(consensus, 'ARU_Phylo_Consensus.rds')
 plotTree(consensus, fsize=0.6)
 
 
@@ -67,16 +68,16 @@ plotTree(consensus, fsize=0.6)
 
 #phylogenetic distance of all site_zones using picinate
 
-Faith_Index_All_Zones <- pd(WF_All_Zones, consensus, include.root	= TRUE)
+Faith_Index_All_Zones <- pd(WF_All_Zones_ARU, consensus, include.root	= TRUE)
 
 Faith_Index_All_Zones
 
 
 #HIll numbers using hillR for all zones
 
-Zonal_Phylo_Div_Faith <- hill_phylo(WF_All_Zones, consensus, q = 0)
-Zonal_Phylo_Div_Entropy <- hill_phylo(WF_All_Zones, consensus, q = 1)
-Zonal_Phylo_Div_Rao <- hill_phylo(WF_All_Zones, consensus, q = 2)
+ARU_Phylo_Div_Faith <- hill_phylo(WF_All_Zones_ARU, consensus, q = 0)
+ARU_Phylo_Div_Entropy <- hill_phylo(WF_All_Zones_ARU, consensus, q = 1)
+ARU_Phylo_Div_Rao <- hill_phylo(WF_All_Zones_ARU, consensus, q = 2)
 
 Zonal_Phylo_Div_Faith           
 Zonal_Phylo_Div_Entropy

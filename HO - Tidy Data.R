@@ -140,13 +140,14 @@ YK_HO_PC = YK_HO_PC %>% filter(species_code != "SFAL") #Small Falcon
 YK_HO_PC = YK_HO_PC %>% filter(species_code != "SPAR") #Sparrow SP.
 YK_HO_PC = YK_HO_PC %>% filter(species_code != "THRU") #Thrush Sp.
 YK_HO_PC = YK_HO_PC %>% filter(species_code != "WARB") #Warbler Sp.
-YK_HO_PC = YK_HO_PC %>% filter(species_code != "WARB") #Woodpecker Sp.
+YK_HO_PC = YK_HO_PC %>% filter(species_code != "WOOD") #Woodpecker Sp.
+YK_HO_PC = YK_HO_PC %>% filter(species_code != "UTBB") #Unknown - Black backed or American Three Toed
 
 ALL_HO_Species <- unique(YK_HO_PC$species_code)
 
 #write.csv
 
-write.csv(YK_HO_PC,"0_Data/Raw_YK_HO_Data_Tidy.csv")
+write.csv(YK_HO_PC,"0_Data/YK_HO_PC_Tidy.csv")
 
 ###########Make it Wide Form Data.######
 
